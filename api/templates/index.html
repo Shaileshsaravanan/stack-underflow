@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RaspAPI - Documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #a8ff60;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 20px;
+            max-width: 800px;
+            margin: auto;
+        }
+        .container {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #0f0;
+        }
+        h1, h2 {
+            color: #50fa7b;
+        }
+        code {
+            background: #000;
+            color: #ff79c6;
+            padding: 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background: #000;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .endpoint {
+            margin-bottom: 20px;
+        }
+        .method {
+            font-weight: bold;
+            color: #ffb86c;
+        }
+        .url {
+            color: #8be9fd;
+        }
+        .description {
+            color: #f8f8f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>RaspAPI Documentation</h1>
+        
+        <div class="endpoint">
+            <h2>Get API Status</h2>
+            <p class="method">GET <span class="url">/status</span></p>
+            <p class="description">Returns the current status of the API.</p>
+            <pre><code>{ "status": "running", "uptime": "24h" }</code></pre>
+        </div>
+
+        <div class="endpoint">
+            <h2>Create New Entry</h2>
+            <p class="method">POST <span class="url">/entry</span></p>
+            <p class="description">Creates a new entry in the database.</p>
+            <pre><code>{ "name": "Example", "value": 42 }</code></pre>
+        </div>
+    </div>
+</body>
+</html>
