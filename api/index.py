@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, jsonify
 import google.generativeai as genai
 import requests
+from environs import Env
 from collections import Counter
 
 GITHUB_API_URL = "https://api.github.com/users/{username}"
@@ -91,7 +92,10 @@ def get_github_user_details(username):
     
     return full_profile
 
-genai.configure(api_key="AIzaSyC_w-yDNPHWrdgU_-CdSLgdXfL-C4PN0xM")
+env = Env()
+env.read_env()
+apikey = env.str('apikey')
+genai.configure(api_key=apikey)
 
 app = Flask(__name__)
 
@@ -130,11 +134,18 @@ def github():
     if request.args.get('brainrot'):
         brainrot_stuff = brainrot_prompt
     
-    user_data = get_github_user_details(username)
-    response = get_gemini_response(f"""Analyze this GitHub profile: {user_data}. 
-    Give a totally ridiculous and exaggerated rating of how much of an '10x engineer' 
-    they are (also roast them on the side based on their data and be harsh if needed for fun ofc). {brainrot_stuff}""")
-    return jsonify(response)
+
+    try:
+        user_data = get_github_user_details(username)
+        prompt = f"""Analyze this GitHub profile: {user_data}. 
+        Roast them extensively based on their data and be rude in a fun way.
+        Mock and roast extensively. dont use markdown and newline characters, 
+        just plaintext. {brainrot_stuff} also dont use offensive langauge"""
+        response = get_gemini_response(prompt)
+        return jsonify(response)
+    except Exception as e:
+        return jsonify("github api rate limit exceeded, try again in sometime.")
+    
 
 @app.route('/api/feature')
 def feature():
