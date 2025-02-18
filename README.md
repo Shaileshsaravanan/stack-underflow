@@ -15,7 +15,7 @@ Welcome to **StackUnderflow**, the most unhinged, chaotic, and utterly useless A
 
 ## 🚀 Base URL
 ```
-https://stack-underflow.vercel.app/
+https://stack-underflow-swart.vercel.app/
 ```
 
 ---
@@ -144,14 +144,11 @@ https://stack-underflow.vercel.app/
 ---
 
 ## 🎭 The Brainrot Mode (`?brainrot=true`)
-Want to crank things up to **GYATTTT** levels of nonsense? Add `?brainrot=true` to any request and watch logic **evaporate into the void.**
+Want to crank things up to insane levels of nonsense? Add `?brainrot=true` to any request and watch logic **evaporate into the void.**
 
 ---
 
-## 🎉 Final Notes
 - **Built for chaos, not accuracy.**
-- **Deploy it? Up to you.**
 - **Your neurons may suffer irreversible damage.**
-- **Have fun (or don’t, we don’t care).**
 
 🚀 **StackUnderflow API** – Because StackOverflow was too competent. 💀
