@@ -12,6 +12,7 @@ Welcome to **StackUnderflow**, the most unhinged, chaotic, and utterly useless A
 - **Useless Programming Advice** (Like StackOverflow, but worse)
 - **Fortune Cookie Wisdom** (AI-powered nonsense prophecy)
 - **MAXIMUM BRAINROT MODE** (self explanatory.)
+- **( Add <'?brainrot=true'>/<'&brainrot=true' if you already have a search term> after each url for MAXIMUM CHAOS)**
 
 ## 🚀 Base URL
 ```
@@ -27,7 +28,6 @@ https://stack-underflow-swart.vercel.app/
 ```json
 { "problem": "My CSS isn't centering." }
 ```
-🔹 **Optional:** Add `?brainrot=true` for **MAXIMUM CHAOS**
 
 **Response:**
 ```json
@@ -37,8 +37,6 @@ https://stack-underflow-swart.vercel.app/
 
 ### 2️⃣ `GET /github?username={username}`
 **Analyze (or roast) a GitHub profile.**
-
-🔹 **Optional:** Add `?brainrot=true` for **ABSOLUTE DISRESPECT**
 
 **Response:**
 ```json
