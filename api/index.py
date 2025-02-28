@@ -7,6 +7,16 @@ from collections import Counter
 GITHUB_API_URL = "https://api.github.com/users/{username}"
 GITHUB_REPOS_URL = "https://api.github.com/users/{username}/repos"
 
+import re
+
+def clean_text(text):
+    text = re.sub(r'\\[nrt"]', ' ', text)
+    text = text.replace("\u2019", "'")
+    text = text.replace("`", "")
+    text = text.replace("\\/", "/")
+    text = re.sub(r'\s+', ' ', text).strip()
+    return text.replace("\n", " ")
+
 brainrot = """
 GYATTT – Expression of excitement or admiration (often ironic and use more Ts for emphasis),  
 ONG / OMM – "On God" / "On My Momma" (swearing truth),  
@@ -58,11 +68,13 @@ def get_github_user_details(username):
         return {"Error": "User not found"}
     
     repos_data = requests.get(GITHUB_REPOS_URL.format(username=username)).json()
+    print(repos_data)
     
     languages = Counter()
     repo_details = []
     
     for repo in repos_data:
+        print(repo)
         repo_details.append({
             "Repo Name": repo["name"],
             "Description": repo["description"],
@@ -100,13 +112,9 @@ genai.configure(api_key=apikey)
 app = Flask(__name__)
 
 def get_gemini_response(prompt):
-    model = genai.GenerativeModel("gemini-pro")
+    model = genai.GenerativeModel("gemini-1.5-flash")
     response = model.generate_content(prompt)
     return response.text if response else "Something went wrong, try again."
-
-@app.route('/')
-def home():
-    return render_template('index.html')
 
 @app.route('/api/why', methods=['POST'])
 def why():
@@ -121,7 +129,7 @@ def why():
     Generate a completely ridiculous, funny, and absurd reason why this might be happening. 
     Be creative, and make sure the response is entertaining but still sounds somewhat technical, 
     keep it short under a sentence. {brainrot_stuff}""")
-    return jsonify(response)
+    return jsonify(clean_text(response))
 
 @app.route('/api/github')
 def github():
@@ -134,18 +142,21 @@ def github():
     if request.args.get('brainrot'):
         brainrot_stuff = brainrot_prompt
     
-
     try:
         user_data = get_github_user_details(username)
-        prompt = f"""Analyze this GitHub profile: {user_data}. 
-        Roast them extensively based on their data and be rude in a fun way.
-        Mock and roast extensively. dont use markdown and newline characters, 
-        just plaintext. {brainrot_stuff} also dont use offensive langauge"""
+        prompt = f""" Absolutely roast this GitHub profile: {user_data}. 
+        Make it **funny, sarcastic, and absurd**—not constructive, not motivational, just straight-up **brutal comedy**.
+        Think of it like a tech roast at a stand-up show. No introductions, no "alright folks", just **straight into the jokes**. 
+        Make fun of repo names, star count, random programming languages—go wild but keep it **fun and not offensive**.
+        Be witty, be sharp, be creative. **No sugarcoating.** No boring analysis. **Max humor, max chaos.**
+        {brainrot_stuff}
+        """
+        
         response = get_gemini_response(prompt)
-        return jsonify(response)
-    except Exception as e:
-        return jsonify("github api rate limit exceeded, try again in sometime.")
+        return jsonify(clean_text(response))
     
+    except Exception as e:
+        return jsonify("GitHub API rate limit exceeded, try again later.")
 
 @app.route('/api/feature')
 def feature():
@@ -156,7 +167,7 @@ def feature():
     
     response = get_gemini_response(f"""Invent a completely unnecessary AI-powered 
     feature. Make it sound high-tech but utterly useless. keep it short and ridiculous. {brainrot_stuff}""")
-    return jsonify(response)
+    return jsonify(clean_text(response))
 
 @app.route('/api/motivation')
 def motivation():
@@ -167,7 +178,7 @@ def motivation():
     
     response = get_gemini_response(f"""Generate an exaggerated startup-style motivational 
     quote using words like 'disrupt,' 'scale,' and 'AI'. {brainrot_stuff}""")
-    return jsonify(response)
+    return jsonify(clean_text(response))
 
 @app.route('/api/explain')
 def explain():
@@ -180,7 +191,7 @@ def explain():
 
     response = get_gemini_response(f"""Explain the concept of '{term}' in a way that a 
     grandma would understand. Use funny, everyday analogies. {brainrot_stuff}""")
-    return jsonify(response)
+    return jsonify(clean_text(response))
 
 @app.route('/api/excuse', methods=['POST'])
 def excuse():
@@ -193,7 +204,7 @@ def excuse():
 
     response = get_gemini_response(f"""Give a wild and absurd excuse for missing {reason}. Make it sound 
     completely ridiculous yet somehow plausible. {brainrot_stuff}""")
-    return jsonify(response)
+    return jsonify(clean_text(response))
 
 @app.route('/api/startup', methods=['GET'])
 def startup():
@@ -204,7 +215,7 @@ def startup():
 
     response = get_gemini_response(f"""Invent a startup idea that makes no sense but sounds like the future. 
     Use exaggerated tech jargon. {brainrot_stuff}""")
-    return jsonify(response)
+    return jsonify(clean_text(response))
 
 @app.route('/api/roast', methods=['POST'])
 def roast():
@@ -216,7 +227,7 @@ def roast():
         brainrot_stuff = brainrot_prompt
 
     response = get_gemini_response(f"""Roast a developer who uses {tech_stack}. Be funny but harsh. {brainrot_stuff}""")
-    return jsonify(response)
+    return jsonify(clean_text(response))
 
 @app.route('/api/bad_advice', methods=['GET'])
 def bad_advice():
@@ -226,7 +237,7 @@ def bad_advice():
         brainrot_stuff = brainrot_prompt
 
     response = get_gemini_response(f"""Give a programming tip that is completely useless but sounds like expert advice. {brainrot_stuff}""")
-    return jsonify(response)
+    return jsonify(clean_text(response))
 
 @app.route('/api/fortune', methods=['GET'])
 def fortune():
@@ -236,14 +247,14 @@ def fortune():
         brainrot_stuff = brainrot_prompt
 
     response = get_gemini_response(f"""Give me a fortune cookie message that sounds wise but makes no sense. {brainrot_stuff}""")
-    return jsonify(response)
+    return jsonify(clean_text(response))
 
 @app.route('/api/brainrot', methods=['POST'])
 def brainrot():
     prompt = request.json.get("prompt")
     response = get_gemini_response(prompt + brainrot_prompt)
 
-    return jsonify(response)
+    return jsonify(clean_text(response))
 
 @app.route('/')
 def index():

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StackUnderflow API Docs - Hacker Mode</title>
+    <style>
+        body {
+            background-color: black;
+            color: #00ff00;
+            font-family: "Courier New", monospace;
+            padding: 20px;
+        }
+        .terminal {
+            background-color: rgba(0, 0, 0, 0.9);
+            border: 2px solid #00ff00;
+            padding: 15px;
+            font-size: 16px;
+            width: 80%;
+            margin: auto;
+            box-shadow: 0 0 10px #00ff00;
+        }
+        .typing {
+            white-space: pre-wrap;
+            overflow: hidden;
+            display: inline-block;
+            border-right: 2px solid #00ff00;
+            animation: blink 0.8s infinite;
+        }
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+        a {
+            color: #00ff00;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .glitch {
+            animation: glitch 1s infinite linear alternate-reverse;
+        }
+        @keyframes glitch {
+            0% { text-shadow: 2px 2px #00ff00; }
+            50% { text-shadow: -2px -2px #00ff00; }
+            100% { text-shadow: 2px 2px #00ff00; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="terminal">
+        <h1 class="glitch">💀 StackUnderflow API 💀</h1>
+        <p class="typing"></p>
+
+        <h2>📡 Base URL</h2>
+        <p><code>https://stack-underflow-swart.vercel.app/api/</code></p>
+
+        <h2>📌 Endpoints</h2>
+        <ul id="endpoints"></ul>
+    </div>
+
+    <script>
+        const typingText = `
+
+          /**                    /**                                   
+  ****** ******  ******    ***** /**  **                               
+ **//// ///**/  //////**  **///**/** **                                
+//*****   /**    ******* /**  // /****                                 
+ /////**  /**   **////** /**   **/**/**                                
+ ******   //** //********//***** /**//**                               
+//////     //   ////////  /////  //  //           
+
+
+                       **                  ****  **                    
+                      /**                 /**/  /**                    
+ **   ** *******      /**  *****  ****** ****** /**  ******  ***     **
+/**  /**//**///**  ****** **///**//**//*///**/  /** **////**//**  * /**
+/**  /** /**  /** **///**/******* /** /   /**   /**/**   /** /** ***/**
+/**  /** /**  /**/**  /**/**////  /**     /**   /**/**   /** /****/****
+//****** ***  /**//******//******/***     /**   ***//******  ***/ ///**
+ ////// ///   //  //////  ////// ///      //   ///  //////  ///    /// 
+
+Welcome to StackUnderflow API – The Most Chaotic API Ever.
+Fetching endpoint data...
+( Add <'?brainrot=true'>/<'&brainrot=true' if you already have a search term> after each url for MAXIMUM CHAOS)
+        `;
+
+        function typeEffect(element, text, speed) {
+            let i = 0;
+            function typing() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typing, speed);
+                }
+            }
+            typing();
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            typeEffect(document.querySelector(".typing"), typingText, 10);
+
+            const endpoints = [
+                { method: "POST", route: "/why", description: "Get a ridiculous reason why your code is broken." },
+                { method: "GET", route: "/github?username={username}", description: "Analyze (or roast) a GitHub profile." },
+                { method: "GET", route: "/feature", description: "Generate a useless AI-powered feature." },
+                { method: "GET", route: "/motivation", description: "Get an exaggerated startup-style motivational quote." },
+                { method: "GET", route: "/explain?term={term}", description: "Explain a tech concept like you're 5." },
+                { method: "POST", route: "/excuse", description: "Generate a ridiculous excuse for missing something." },
+                { method: "GET", route: "/startup", description: "Invent a nonsense startup idea." },
+                { method: "POST", route: "/roast", description: "Roast a tech stack brutally." },
+                { method: "GET", route: "/bad_advice", description: "Get completely useless programming advice." },
+                { method: "GET", route: "/fortune", description: "Get a cryptic fortune cookie message." },
+                { method: "POST", route: "/brainrot", description: "MAXIMUM CHAOS MODE." }
+            ];
+
+            const endpointList = document.getElementById("endpoints");
+            endpoints.forEach(endpoint => {
+                let li = document.createElement("li");
+                li.innerHTML = `<code>[${endpoint.method}]</code> <a href="${endpoint.route}" target="_blank">${endpoint.route}</a> - ${endpoint.description}`;
+                endpointList.appendChild(li);
+            });
+        });
+    </script>
+
+</body>
+</html>
